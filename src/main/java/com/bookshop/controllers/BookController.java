@@ -25,7 +25,8 @@ public class BookController {
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Book> findAllBooks() {
-		return mongoTemplate.findAll(Book.class);
+		List<Book> allBooks = mongoTemplate.findAll(Book.class);
+		return allBooks;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,7 +36,7 @@ public class BookController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Book addBook(@RequestBody Book book) {
+	public @ResponseBody Book addBook(@RequestBody Book book) {
 		mongoTemplate.save(book);
 		return book;
 	}
