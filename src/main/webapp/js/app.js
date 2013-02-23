@@ -58,7 +58,6 @@
 		},
 
 		delete : function(){
-			console.log('in delete() ...'+this.model.id);
 			console.log(this.model.attributes);
 			this.model.destroy();
 			return false;
