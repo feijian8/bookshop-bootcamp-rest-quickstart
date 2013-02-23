@@ -1,5 +1,6 @@
 package com.bookshop.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bookshop.domain.Book;
+import com.bookshop.domain.BookVo;
 
 @Controller
 @RequestMapping("/books")
@@ -24,26 +26,35 @@ public class BookController {
 	private MongoTemplate mongoTemplate;
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Book> findAllBooks() {
+	public @ResponseBody List<BookVo> findAllBooks() {
 		List<Book> allBooks = mongoTemplate.findAll(Book.class);
-		return allBooks;
+		return allBookVos(allBooks);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Book findBook(@PathVariable("id") String id) {
+	public @ResponseBody BookVo findBook(@PathVariable("id") String id) {
 		Query query = Query.query(Criteria.where("_id").is(id));
-		return mongoTemplate.findOne(query, Book.class);
+		return new BookVo(mongoTemplate.findOne(query, Book.class));
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Book addBook(@RequestBody Book book) {
+	public @ResponseBody BookVo addBook(@RequestBody BookVo vo) {
+		Book book = new Book(vo);
 		mongoTemplate.save(book);
-		return book;
+		return new BookVo(book);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void deleteBook(@PathVariable("id") String id){
 		Query query = Query.query(Criteria.where("_id").is(id));
 		mongoTemplate.remove(query, Book.class);
+	}
+	
+	private List<BookVo> allBookVos(List<Book> allBooks) {
+		List<BookVo> bookVos = new ArrayList<BookVo>();
+		for (Book book : allBooks) {
+			bookVos.add(new BookVo(book));
+		}
+		return bookVos;
 	}
 }
