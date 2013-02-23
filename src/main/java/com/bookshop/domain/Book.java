@@ -12,10 +12,10 @@ public class Book {
 	private String title;
 	private String author;
 	private String releaseDate;
-	private String[] categories;
+	private String categories;
 
 	public Book(String title, String author, String releaseDate,
-			String[] categories) {
+			String categories) {
 		super();
 		this.title = title;
 		this.author = author;
@@ -43,7 +43,7 @@ public class Book {
 		return releaseDate;
 	}
 
-	public String[] getCategories() {
+	public String getCategories() {
 		return categories;
 	}
 
