@@ -19,6 +19,8 @@ rhc app create bookshop tomcat-7 mongodb-2.2
 
 5. Add a git remote and pull code from github repository
 ```
+git rm -rf src/ pom.xml
+git commit -am "removed default files"
 git remote add upstream -m master git://github.com/shekhargulati/bookshop-bootcamp-rest-quickstart.git
 git pull -s recursive -X theirs upstream master
 ```
