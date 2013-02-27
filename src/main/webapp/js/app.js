@@ -97,7 +97,7 @@
 				categories : this.$('#categories').val()
 			});
 
-			console.log('title is ... ',this.$('#title').val())
+			console.log('title is ... ',this.$('#title').val());
 			this.render();
 		}
 
